@@ -60,40 +60,21 @@ class GameFragment : Fragment() {
         viewModel.score.observe(viewLifecycleOwner, Observer { newScore ->
             binding.scoreText.text = newScore.toString()
         })
-        viewModel.word.observe(viewLifecycleOwner, Observer { newWord ->
-            binding.wordText.text = newWord.toString()
-        })
+     
 
         viewModel.eventGameFinish.observe(viewLifecycleOwner, Observer<Boolean> { hasFinished ->
             if(hasFinished) gameFinished()
         })
 
-        binding.correctButton.setOnClickListener { onCorrect() }
-        binding.skipButton.setOnClickListener { onSkip() }
-        binding.endGameButton.setOnClickListener { onEndGame() }
+
+        binding.gameViewModel = viewModel
+
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
 
     }
 
-
-
-
-    /** Methods for buttons presses **/
-
-    private fun onSkip() {
-        viewModel.onSkip()
-
-    }
-
-    private fun onCorrect() {
-        viewModel.onCorrect()
-
-    }
-
-    private fun onEndGame(){
-        gameFinished()
-    }
     private fun gameFinished(){
         Toast.makeText(activity, "Game is finished", Toast.LENGTH_SHORT).show()
         val action =  GameFragmentDirections.actionGameToScore()
